@@ -1,0 +1,59 @@
+﻿@page "/Index"
+@using JeronyCruz_AP1_P2.Services
+@using JeronyCruz_AP1_P2.Models
+
+@inject RegistroServices registroService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle></PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h5 class="card-title">Registro</h5>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+                <thead class="text-center">
+                    <tr>
+                        <th><strong>Id</strong></th>
+                        <th><strong>Editar</strong></th>
+                        <th><strong>Eliminar</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    @foreach (var registro in Registro)
+                    {
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td></td>
+
+                            <td class="text-center">
+                                <a href="/Registro/Details/@registro.Id" class="btn btn-outline-primary bi bi-eye"></a>
+                            </td>
+
+                            <td class="text-center">
+                                <a href="/Registro/Edit/@registro.Id" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                            </td>
+
+                            <td class="text-center">
+                                <a href="/Registro/Delete/@registro.Id" class="btn btn-outline-danger bi bi-trash"></a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a href="/Registro/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<Registro> Registro { get; set; } = new List<Registro>();
+}
