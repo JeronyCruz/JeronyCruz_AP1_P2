@@ -1,5 +1,6 @@
 using JeronyCruz_AP1_P2.Components;
 using JeronyCruz_AP1_P2.DAL;
+using JeronyCruz_AP1_P2.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var ConStr = builder.Configuration.GetConnectionString("SqlConStr");
-builder.Services.AddDbContext<Context>(o => o.UseSqlServer("Name=SqlConStr"));
+builder.Services.AddDbContextFactory<Context>(o => o.UseSqlServer("Name=SqlConStr"));
+
+builder.Services.AddScoped<RegistroServices>();
 
 
 var app = builder.Build();

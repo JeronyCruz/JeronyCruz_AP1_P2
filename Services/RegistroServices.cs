@@ -7,7 +7,7 @@ namespace JeronyCruz_AP1_P2.Services;
 
 public class RegistroServices(IDbContextFactory<Context> DbFactory)
 {
-    private async Task<bool> Existe(int id)
+    /*private async Task<bool> Existe(int id)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
     }
@@ -40,5 +40,5 @@ public class RegistroServices(IDbContextFactory<Context> DbFactory)
     public async Task<List<Registro>> Listar(Expression<Func<Registro, bool>> criterio)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
-    }
+    }*/
 }
