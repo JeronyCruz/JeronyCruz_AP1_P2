@@ -1,10 +1,16 @@
 using JeronyCruz_AP1_P2.Components;
+using JeronyCruz_AP1_P2.DAL;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+var ConStr = builder.Configuration.GetConnectionString("SqlConStr");
+builder.Services.AddDbContext<Context>(o => o.UseSqlServer("Name=SqlConStr"));
+
 
 var app = builder.Build();
 
