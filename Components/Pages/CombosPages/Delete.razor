@@ -3,10 +3,12 @@
 @rendermode InteractiveServer
 @inject CombosServices comboService
 @inject NavigationManager navigation
+@inject ToastService Toast
 <link rel="stylesheet" href="StyleDetails.css" />
 
 
-<PageTitle> Eliminar Cotizaci&oacute;n</PageTitle>
+<PageTitle> Eliminar Combo</PageTitle>
+<Toasts class="p-3" AutoHide="true" Delay="4000" Placement="ToastsPlacement.TopRight"   />
 
 
 <div class="container">
@@ -78,6 +80,8 @@
 
         if (eliminar)
         {
+            Toast.Notify(new(ToastType.Primary, $"Se ha eliminado el combo"));
+            await Task.Delay(4000);
             Console.WriteLine("La Cotizacion fue eliminada correctamente.");
             navigation.NavigateTo("/Index");
         }
