@@ -154,13 +154,13 @@
 
         if (string.IsNullOrWhiteSpace(Combos.Descripcion))
         {
-            SueldoMensaje = "La Observacion del trabajo es obligatoria.";
+            SueldoMensaje = "La Descripcion del combo es obligatoria.";
             return;
         }
         if (!Combos.CombosDetalles.Any())
         {
-            Toast.Notify(new(ToastType.Danger, $"Debe agregar al menos un detalle de Cotizaciones"));
-            DetalleMensaje = "Debe agregar al menos un detalle de Cotizaciones.";
+            Toast.Notify(new(ToastType.Danger, $"Debe agregar al menos un detalle de Combos"));
+            DetalleMensaje = "Debe agregar al menos un detalle de Combos.";
             return;
         }
 
