@@ -1,6 +1,5 @@
 ﻿@page "/Index"
-@using JeronyCruz_AP1_P2.Services
-@using JeronyCruz_AP1_P2.Models
+@inject CombosServices combosService
 
 
 @*@inject RegistroServices registroService*@
@@ -19,29 +18,31 @@
             <table class="table table-hover">
                 <thead class="text-center">
                     <tr>
-                        <th><strong>Id</strong></th>
+                        <th><strong>Combo Id</strong></th>
+                        <th><strong>Fecha</strong></th>
+                        <th><strong>Descripc&iacute;on</strong></th>
+                        <th><strong>Precio</strong></th>
+                        <th><strong>Vendido</strong></th>
                         <th><strong>Editar</strong></th>
                         <th><strong>Eliminar</strong></th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @foreach (var registro in Combos)
+                    @foreach (var combo in Combos)
                     {
                         <tr>
-                            <td> </td>
-                            <td> </td>
-                            <td></td>
+                            <td>@combo.ComboId</td>
+                            <td>@combo.Fecha</td>
+                            <td>@combo.Descripcion</td>
+                            <td>@combo.Precio</td>
+                            <td>@combo.Vendindo</td>
 
                             <td class="text-center">
-                                <a href="/Registro/Details/@registro.ComboId" class="btn btn-outline-primary bi bi-eye"></a>
+                                <a href="/Registro/Edit/@combo.ComboId" class="btn btn-outline-primary bi bi-pencil-square"></a>
                             </td>
 
                             <td class="text-center">
-                                <a href="/Registro/Edit/@registro.ComboId" class="btn btn-outline-primary bi bi-pencil-square"></a>
-                            </td>
-
-                            <td class="text-center">
-                                <a href="/Registro/Delete/@registro.ComboId" class="btn btn-outline-danger bi bi-trash"></a>
+                                <a href="/Registro/Delete/@combo.ComboId" class="btn btn-outline-danger bi bi-trash"></a>
                             </td>
                         </tr>
 
@@ -50,11 +51,16 @@
             </table>
         </div>
         <div class="card-footer">
-            <a href="/Registro/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
+            <a href="/Combo/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
         </div>
     </div>
 </div>
 
 @code {
     public List<Combos> Combos { get; set; } = new List<Combos>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Combos = await combosService.Listar(a => a.ComboId > 0);
+    }
 }
