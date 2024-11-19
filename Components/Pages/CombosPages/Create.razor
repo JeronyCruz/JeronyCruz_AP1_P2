@@ -35,16 +35,22 @@
 
                 @* Descripcion *@
                 <div class="mb-3">
-                    <label for="Descripcion" class="form-label"><strong>Observaci&oacute;n</strong></label>
+                    <label for="Descripcion" class="form-label"><strong>Descripci&oacute;n</strong></label>
                     <InputText class="form-control" @bind-Value="Combos.Descripcion"></InputText>
                     <ValidationMessage For="(() => Combos.Descripcion)"></ValidationMessage>
                 </div>
 
                 @* Precio *@
                 <div class="mb-3">
-                    <label for="Monto" class="form-label"><strong>Monto</strong></label>
-                    <InputNumber class="form-control" @bind-Value="Combos.Precio" readonly></InputNumber>
+                    <label for="Monto" class="form-label"><strong>Precio</strong></label>
+                    <InputNumber class="form-control" @bind-Value="Combos.Precio"></InputNumber>
                     <ValidationMessage For="(() => Combos.Precio)"></ValidationMessage>
+                </div>
+
+                @* Vendido *@
+                <div class="mb-3">
+                    <label for="Vendido" class="form-label"><strong>¿Vendido?</strong></label>
+                    <InputCheckbox class="form-check-input" @bind-Value="Combos.Vendindo" />
                 </div>
 
                 @* Detalles del Combo *@
