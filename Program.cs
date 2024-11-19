@@ -14,7 +14,8 @@ var ConStr = builder.Configuration.GetConnectionString("SqlConStr");
 builder.Services.AddDbContextFactory<Context>(o => o.UseSqlServer("Name=SqlConStr"));
 
 builder.Services.AddSingleton<ToastService>();
-builder.Services.AddScoped<RegistroServices>();
+builder.Services.AddScoped<CombosServices>();
+builder.Services.AddScoped<ProductosService>();
 
 
 var app = builder.Build();

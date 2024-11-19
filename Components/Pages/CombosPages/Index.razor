@@ -25,7 +25,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @foreach (var registro in Registro)
+                    @foreach (var registro in Combos)
                     {
                         <tr>
                             <td> </td>
@@ -33,15 +33,15 @@
                             <td></td>
 
                             <td class="text-center">
-                                <a href="/Registro/Details/@registro.Id" class="btn btn-outline-primary bi bi-eye"></a>
+                                <a href="/Registro/Details/@registro.ComboId" class="btn btn-outline-primary bi bi-eye"></a>
                             </td>
 
                             <td class="text-center">
-                                <a href="/Registro/Edit/@registro.Id" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                                <a href="/Registro/Edit/@registro.ComboId" class="btn btn-outline-primary bi bi-pencil-square"></a>
                             </td>
 
                             <td class="text-center">
-                                <a href="/Registro/Delete/@registro.Id" class="btn btn-outline-danger bi bi-trash"></a>
+                                <a href="/Registro/Delete/@registro.ComboId" class="btn btn-outline-danger bi bi-trash"></a>
                             </td>
                         </tr>
 
@@ -56,5 +56,5 @@
 </div>
 
 @code {
-    public List<Registro> Registro { get; set; } = new List<Registro>();
+    public List<Combos> Combos { get; set; } = new List<Combos>();
 }
