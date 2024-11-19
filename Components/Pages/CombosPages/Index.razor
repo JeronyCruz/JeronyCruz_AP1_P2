@@ -10,57 +10,147 @@
 <div class="container">
     <div class="card shadow-lg">
         <div class="card-header">
-            <h5 class="card-title">Registro</h5>
+            <h5 class="card-title">Registro de Combos</h5>
         </div>
 
         <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="filtrarPor">Filtrar por:</label>
+                    <InputSelect id="filtrarPor" class="form-select" @bind-Value="FiltroSeleccionado">
+                        <option value="ID">ID</option>
+                        <option value="Fecha">Fecha</option>
+                        <option value="Nombre">Nombre</option>
+                    </InputSelect>
+                </div>
 
-            <table class="table table-hover">
-                <thead class="text-center">
-                    <tr>
-                        <th><strong>Combo Id</strong></th>
-                        <th><strong>Fecha</strong></th>
-                        <th><strong>Descripc&iacute;on</strong></th>
-                        <th><strong>Precio</strong></th>
-                        <th><strong>Vendido</strong></th>
-                        <th><strong>Editar</strong></th>
-                        <th><strong>Eliminar</strong></th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    @foreach (var combo in Combos)
-                    {
+                <div class="col-md-6 d-flex justify-content-center mt-4">
+                    <div class="input-group">
+                        <InputText id="Busqueda" class="form-control" @bind-Value="CriterioBusqueda"
+                                   placeholder="@GetPlaceholder()"></InputText>
+                        <button @onclick="BuscarCotizaciones" class="btn btn-outline-primary bi bi-search"> Buscar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="FechaInicio">Fecha Inicio:</label>
+                    <InputDate id="FechaInicio" class="form-control" @bind-Value="FechaInicio" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="FechaFinal">Fecha Final:</label>
+                    <div class="input-group">
+                        <InputDate id="FechaFinal" class="form-control" @bind-Value="FechaFinal" />
+                        <button class="btn btn-outline-success bi bi-arrow-counterclockwise" @onclick="RefrescarDatos"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col text-end">
+                    <a href="/Combo/Create" class="btn btn-primary bi bi-plus-square mt-3">Crear</a>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-hover">
+                    <thead class="text-center">
                         <tr>
-                            <td>@combo.ComboId</td>
-                            <td>@combo.Fecha</td>
-                            <td>@combo.Descripcion</td>
-                            <td>@combo.Precio</td>
-                            <td>@combo.Vendindo</td>
-
-                            <td class="text-center">
-                                <a href="/Registro/Edit/@combo.ComboId" class="btn btn-outline-primary bi bi-pencil-square"></a>
-                            </td>
-
-                            <td class="text-center">
-                                <a href="/Registro/Delete/@combo.ComboId" class="btn btn-outline-danger bi bi-trash"></a>
-                            </td>
+                            <th><strong>Combo Id</strong></th>
+                            <th><strong>Fecha</strong></th>
+                            <th><strong>Descripc&iacute;on</strong></th>
+                            <th><strong>Precio</strong></th>
+                            <th><strong>Vendido</strong></th>
+                            <th><strong>Editar</strong></th>
+                            <th><strong>Eliminar</strong></th>
                         </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @foreach (var combo in Combos)
+                        {
+                            <tr>
+                                <td>@combo.ComboId</td>
+                                <td>@combo.Fecha</td>
+                                <td>@combo.Descripcion</td>
+                                <td>@combo.Precio</td>
+                                <td>@combo.Vendindo</td>
 
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer">
-            <a href="/Combo/Create" class="btn btn-primary"> <span class="bi bi-plus-square mt-3"></span> Crear</a>
+                                <td class="text-center">
+                                    <a href="/Combo/Edit/@combo.ComboId" class="btn btn-outline-primary bi bi-pencil-square"></a>
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="/Combo/Delete/@combo.ComboId" class="btn btn-outline-danger bi bi-trash"></a>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+
+            </div>
         </div>
     </div>
 </div>
 
 @code {
     public List<Combos> Combos { get; set; } = new List<Combos>();
+    private string FiltroSeleccionado { get; set; } = "ID";
+    private string CriterioBusqueda { get; set; } = string.Empty;
+    private DateTime? FechaInicio { get; set; }
+    private DateTime? FechaFinal { get; set; }
+    public List<DateTime> FechasInicio { get; set; } = new List<DateTime>();
+    public List<DateTime> FechasFinales { get; set; } = new List<DateTime>();
 
     protected override async Task OnInitializedAsync()
     {
         Combos = await combosService.Listar(a => a.ComboId > 0);
+        FechasInicio = Combos
+            .Select(c => c.Fecha.Date)
+            .Distinct()
+            .OrderBy(f => f)
+            .ToList();
+    }
+
+    private async Task BuscarCotizaciones()
+    {
+        switch (FiltroSeleccionado)
+        {
+            case "ID":
+                if (int.TryParse(CriterioBusqueda, out int id))
+                {
+                    Combos = await combosService.Listar(a => a.ComboId == id);
+                }
+                break;
+
+            case "Fecha":
+                if (FechaInicio.HasValue && FechaFinal.HasValue)
+                {
+                    Combos = await combosService.Listar(a =>
+                        a.Fecha.Date >= FechaInicio.Value.Date && a.Fecha.Date <= FechaFinal.Value.Date);
+                }
+                break;
+        }
+    }
+
+
+    private async Task RefrescarDatos()
+    {
+        Combos = await combosService.Listar(a => true);
+        FechasInicio = Combos.Select(c => c.Fecha.Date).Distinct().OrderBy(f => f).ToList();
+        CriterioBusqueda = string.Empty;
+        FechaInicio = null;
+        FechaFinal = null;
+        FechasFinales.Clear();
+    }
+
+    private string GetPlaceholder()
+    {
+        return FiltroSeleccionado == "ID" ? "Buscar por ID" : "Buscar por Fecha";
     }
 }
