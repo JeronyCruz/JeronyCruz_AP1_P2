@@ -43,7 +43,7 @@
                 @* Precio *@
                 <div class="mb-3">
                     <label for="Monto" class="form-label"><strong>Precio</strong></label>
-                    <InputNumber class="form-control" @bind-Value="Combos.Precio"></InputNumber>
+                    <InputNumber class="form-control" @bind-Value="Combos.Precio" readonly></InputNumber>
                     <ValidationMessage For="(() => Combos.Precio)"></ValidationMessage>
                 </div>
 
@@ -77,6 +77,7 @@
                             <thead class="table-striped">
                                 <tr class="text-center">
                                     <th>Artículo</th>
+                                    <th>Nombre Artículo</th>
                                     <th>Cantidad</th>
                                     <th>Precio</th>
                                     <th>Remover</th>
@@ -87,6 +88,7 @@
                                 {
                                     <tr class="text-center">
                                         <td>@Detalle.ArticuloId</td>
+                                        <td>@Detalle.Articulos?.Descripcion</td>
                                         <td>@Detalle.Cantidad</td>
                                         <td>@Detalle.Costo</td>
                                         <td>
@@ -174,6 +176,7 @@
             return;
         }
 
+        Combos.Precio = Combos.CombosDetalles.Sum(d => d.Costo);
         Toast.Notify(new(ToastType.Success, $"Se ha editado un nuevo combo"));
         await combosService.Guardar(Combos);
         Combos = new Combos();
