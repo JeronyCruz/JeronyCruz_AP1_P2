@@ -7,7 +7,7 @@ namespace JeronyCruz_AP1_P2.Models
         [Key]
         public int ArticuloId { get; set; }
 
-        public string Descripcion { get; set; }
+        public string? Descripcion { get; set; }
 
         public double Costo { get; set; }
 
