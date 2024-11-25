@@ -172,6 +172,7 @@
 
         Combos.Precio = Combos.CombosDetalles.Sum(d => d.Costo);
         Toast.Notify(new(ToastType.Success, $"Se ha creado un nuevo combo"));
+        await Task.Delay(4000);
         await combosService.Guardar(Combos);
         Combos = new Combos();
         navigation.NavigateTo("/Index");
