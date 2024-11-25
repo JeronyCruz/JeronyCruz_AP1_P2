@@ -125,19 +125,19 @@
         Combos.Fecha = DateTime.Now;
     }
 
-    /*private void CalcularMontoTotal()
-        {
-        Combos.Precio = Combos.CombosDetalles.Sum(d => d.Precio);
-    }*/
+    private void CalcularMontoTotal()
+    {
+        Combos.Precio = Combos.CombosDetalles.Sum(d => d.Costo);
+    }
 
     private async Task AgregarDetalle((Productos articulos, int Cantidad) selection)
     {
         var ArticuloExiste = Combos.CombosDetalles
-            .FirstOrDefault(A => A.ComboId == selection.articulos.ArticuloId);
+            .FirstOrDefault(A => A.ArticuloId == selection.articulos.ArticuloId);
         if (ArticuloExiste != null)
         {
             ArticuloExiste.Cantidad += selection.Cantidad;
-            ArticuloExiste.Costo = ArticuloExiste.Articulos.Precio * ArticuloExiste.Cantidad;
+            ArticuloExiste.Costo = selection.articulos.Precio * ArticuloExiste.Cantidad;
         }
         else
         {
@@ -150,7 +150,7 @@
             Combos.CombosDetalles.Add(FacturaDetalle);
         }
 
-        //CalcularMontoTotal();
+        CalcularMontoTotal();
         await Task.CompletedTask;
     }
 
